@@ -10,7 +10,7 @@ import common._
 @RunWith(classOf[JUnitRunner])
 class BlurSuite extends FunSuite {
 
-  test ("alpha") {
+  test("alpha") {
     assert(alpha(0) == 0)
     assert(alpha(1) == 1)
     assert(alpha(255) == 255)
@@ -74,10 +74,18 @@ class BlurSuite extends FunSuite {
     "of a 3x4 image with radius 1") {
 
     val src = new Img(3, 4)
-    src(0, 0) = 0; src(1, 0) = 1; src(2, 0) = 2
-    src(0, 1) = 3; src(1, 1) = 4; src(2, 1) = 5
-    src(0, 2) = 6; src(1, 2) = 7; src(2, 2) = 8
-    src(0, 3) = 50; src(1, 3) = 11; src(2, 3) = 16
+    src(0, 0) = 0;
+    src(1, 0) = 1;
+    src(2, 0) = 2
+    src(0, 1) = 3;
+    src(1, 1) = 4;
+    src(2, 1) = 5
+    src(0, 2) = 6;
+    src(1, 2) = 7;
+    src(2, 2) = 8
+    src(0, 3) = 50;
+    src(1, 3) = 11;
+    src(2, 3) = 16
 
     def check(x: Int, y: Int, expected: Int) = {
       val res = boxBlurKernel(src, x, y, 1)
@@ -85,6 +93,7 @@ class BlurSuite extends FunSuite {
         s"(boxBlurKernel(${x}, ${y}, 1) should be ${expected}, " +
           s"but it's ${res})")
     }
+
     assert(boxBlurKernel(src, 1, 2, 1) === 12,
       s"(boxBlurKernel(1, 2, 1) should be 12, " +
         s"but it's ${boxBlurKernel(src, 1, 2, 1)})")
@@ -94,14 +103,39 @@ class BlurSuite extends FunSuite {
     check(0, 0, 2)
   }
 
+  test("boxBlurKernel with high values") {
+    val src = new Img(2, 2)
+    src(0, 0) = rgba(243, 232, 200, 255)
+    src(0, 1) = rgba(232, 200, 255, 212)
+    src(1, 0) = rgba(242, 230, 205, 218)
+    src(1, 1) = rgba(218, 232, 230, 205)
+
+    def check(x: Int, y: Int, expected: Int) = {
+      val res = boxBlurKernel(src, x, y, 1)
+      assert(res == expected,
+        s"(boxBlurKernel(${x}, ${y}, 1) should be ${expected}, " +
+          s"but it's ${res})")
+    }
+
+    check(0, 0, rgba(233, 223, 222, 222))
+
+
+  }
+
   test("HorizontalBoxBlur.blur with radius 1 should correctly blur the entire 3x3 image") {
     val w = 3
     val h = 3
     val src = new Img(w, h)
     val dst = new Img(w, h)
-    src(0, 0) = 0; src(1, 0) = 1; src(2, 0) = 2
-    src(0, 1) = 3; src(1, 1) = 4; src(2, 1) = 5
-    src(0, 2) = 6; src(1, 2) = 7; src(2, 2) = 8
+    src(0, 0) = 0;
+    src(1, 0) = 1;
+    src(2, 0) = 2
+    src(0, 1) = 3;
+    src(1, 1) = 4;
+    src(2, 1) = 5
+    src(0, 2) = 6;
+    src(1, 2) = 7;
+    src(2, 2) = 8
 
     HorizontalBoxBlur.blur(src, dst, 0, 2, 1)
 
@@ -126,9 +160,18 @@ class BlurSuite extends FunSuite {
     val h = 3
     val src = new Img(w, h)
     val dst = new Img(w, h)
-    src(0, 0) = 0; src(1, 0) = 1; src(2, 0) = 2; src(3, 0) = 9
-    src(0, 1) = 3; src(1, 1) = 4; src(2, 1) = 5; src(3, 1) = 10
-    src(0, 2) = 6; src(1, 2) = 7; src(2, 2) = 8; src(3, 2) = 11
+    src(0, 0) = 0;
+    src(1, 0) = 1;
+    src(2, 0) = 2;
+    src(3, 0) = 9
+    src(0, 1) = 3;
+    src(1, 1) = 4;
+    src(2, 1) = 5;
+    src(3, 1) = 10
+    src(0, 2) = 6;
+    src(1, 2) = 7;
+    src(2, 2) = 8;
+    src(3, 2) = 11
 
     VerticalBoxBlur.blur(src, dst, 0, 4, 2)
 

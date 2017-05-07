@@ -44,11 +44,18 @@ package object scalashop {
     val yFrom = clamp(y-radius, 0, src.height-1)
     val yTo = clamp(y+radius, 0, src.height-1)
 
-    var sum = 0
+    var sumRed = 0
+    var sumGreen = 0
+    var sumBlue = 0
+    var sumAlpha = 0
     val count = (xTo - xFrom + 1) * (yTo - yFrom + 1)
-    for(i <- xFrom to xTo; j <- yFrom to yTo)
-      sum += src(i, j)
-    sum/count
+    for(i <- xFrom to xTo; j <- yFrom to yTo) {
+      sumRed += red(src(i, j))
+      sumGreen += green(src(i, j))
+      sumBlue += blue(src(i, j))
+      sumAlpha += alpha(src(i, j))
+    }
+    rgba(sumRed/count, sumGreen/count, sumBlue/count, sumAlpha/count)
   }
 
 }
