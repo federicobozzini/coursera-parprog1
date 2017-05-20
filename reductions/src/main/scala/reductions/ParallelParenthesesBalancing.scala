@@ -15,7 +15,7 @@ object ParallelParenthesesBalancingRunner {
     Key.exec.maxWarmupRuns -> 80,
     Key.exec.benchRuns -> 120,
     Key.verbose -> true
-  ) withWarmer(new Warmer.Default)
+  ) withWarmer (new Warmer.Default)
 
   def main(args: Array[String]): Unit = {
     val length = 100000000
@@ -39,13 +39,23 @@ object ParallelParenthesesBalancingRunner {
 object ParallelParenthesesBalancing {
 
   /** Returns `true` iff the parentheses in the input `chars` are balanced.
-   */
+    */
   def balance(chars: Array[Char]): Boolean = {
-    ???
+    def balanceAux(i: Int, openParentheses: Int): Boolean =
+      if (i >= chars.length)
+        openParentheses == 0
+      else
+        chars(i) match {
+          case '(' => balanceAux(i + 1, openParentheses + 1)
+          case ')' => if (openParentheses == 0) false else balanceAux(i + 1, openParentheses - 1)
+          case _ => balanceAux(i + 1, openParentheses)
+        }
+
+    balanceAux(0, 0)
   }
 
   /** Returns `true` iff the parentheses in the input `chars` are balanced.
-   */
+    */
   def parBalance(chars: Array[Char], threshold: Int): Boolean = {
 
     def traverse(idx: Int, until: Int, arg1: Int, arg2: Int) /*: ???*/ = {
